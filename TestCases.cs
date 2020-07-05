@@ -63,19 +63,7 @@ namespace Automationpractice
             IWebElement submitAccount = _driver.FindElement(By.CssSelector("button[name='submitAccount']"));
             submitAccount.Click();
 
-            IWebElement firstLastName = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                ElementToBeClickable(By.CssSelector("a.account")));
-
-            // Verifying that the account was created
-            if (firstLastName.Text == (name + " " + lastname))
-            {
-                Assert.IsTrue(firstLastName.Text == (name + " " + lastname));
-                Console.WriteLine("signupTesting: " + "Signup test successful");
-            }
-            else
-            {
-                Console.WriteLine("signupTesting: " + "Signup test failed");
-            }
+            signupOrLoginChecking.signupOrLoginCheck(name, lastname, "signup", wait);
 
             IWebElement logOut = _driver.FindElement(By.CssSelector("a[title='Log me out']"));
             logOut.Click();
@@ -92,19 +80,7 @@ namespace Automationpractice
             IWebElement enterButton = _driver.FindElement(By.CssSelector("button[name='SubmitLogin']"));
             enterButton.Click();
 
-            IWebElement firstLastName = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                ElementToBeClickable(By.CssSelector("a.account")));
-
-            // Verifying correctly account login
-            if (firstLastName.Text == (name + " " + lastname))
-            {
-                Assert.IsTrue(firstLastName.Text == (name + " " + lastname));
-                Console.WriteLine("loginTesting: " + "Login test successful");
-            }
-            else
-            {
-                Console.WriteLine("loginTesting: " + "Login test failed");
-            }
+            signupOrLoginChecking.signupOrLoginCheck(name, lastname, "login", wait);
         }
 
         public void autoCreatedWishlist(string myWishlist, WebDriverWait wait)
@@ -118,43 +94,11 @@ namespace Automationpractice
             Boolean isExist = _driver.FindElements(By.Id("block-history")).Count > 0;
             if (isExist == false)
             {
-                IList<IWebElement> myProduct = _driver.FindElements(By.ClassName("product-name"));
-                myProduct[1].Click();
-
-                IWebElement wishlistButton = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                    ElementToBeClickable(By.CssSelector("a[title='Add to my wishlist']")));
-                wishlistButton.Click();
-
-                IWebElement nameOfProduct = _driver.FindElement(By.TagName("h1"));
-                string productName = nameOfProduct.Text;
-
-                IWebElement popUpText = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                    ElementToBeClickable(By.ClassName("fancybox-error")));
-
-                Assert.IsTrue(popUpText.Text == "Added to your wishlist.");
-
-                _driver.Navigate().GoToUrl(myWishlist);
-
-                IWebElement productInWishlist = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                    ElementToBeClickable(By.CssSelector("tbody > tr:first-child > td:nth-of-type(5) > a")));
-                productInWishlist.Click();
-
-                IWebElement nameOfProductInWishlist = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                            ElementToBeClickable(By.CssSelector("a.lnkdel + p.product-name")));
-
-                if (nameOfProductInWishlist.Text.Contains(productName))
-                {
-                    Assert.IsTrue(nameOfProductInWishlist.Text.Contains(productName));
-                    Console.WriteLine("autoCreatedWishlist: There is correct product in the wishlist");
-                }
-                else
-                {
-                    Console.WriteLine("autoCreatedWishlist: There is not correct product in the wishlist");
-                }
+                wishlistChecking.wishlistCheck(1, "autoCreatedWishlist:", myWishlist, _driver, wait);
             }
             else
             {
-                Console.WriteLine("autoCreatedWishlist: There is more than one product in the wishlist");
+                Console.WriteLine("autoCreatedWishlist: there is more than one product in the wishlist");
             }
             
         }
@@ -177,41 +121,7 @@ namespace Automationpractice
 
             Thread.Sleep(3000);
 
-            IList<IWebElement> myProduct = _driver.FindElements(By.ClassName("product-name"));
-            myProduct[3].Click();
-
-            IWebElement wishlistButton = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                ElementToBeClickable(By.Id("wishlist_button")));
-            wishlistButton.Click();
-
-            IWebElement nameOfProduct = _driver.FindElement(By.TagName("h1"));
-            string productName = nameOfProduct.Text;
-
-            IWebElement popUpText = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                ElementToBeClickable(By.ClassName("fancybox-error")));
-
-            Assert.IsTrue(popUpText.Text == "Added to your wishlist.");
-
-            _driver.Navigate().GoToUrl(myWishlist);
-
-            IWebElement productInWishlist = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                    ElementToBeClickable(By.CssSelector("tbody > tr:first-child > td:nth-of-type(5) > a")));
-            productInWishlist.Click();
-
-            IWebElement nameOfProductInWishlist = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.
-                        ElementToBeClickable(By.CssSelector("a.lnkdel + p.product-name")));
-
-            if (nameOfProductInWishlist.Text.Contains(productName))
-            {
-                Assert.IsTrue(nameOfProductInWishlist.Text.Contains(productName));
-                Console.WriteLine("manuallyCreatedWishlist: There is correct product in the wishlist");
-            }
-            else
-            {
-                Console.WriteLine("manuallyCreatedWishlist: There is not correct product in the wishlist");
-            }
-
-            // Thread.Sleep(5000);
+            wishlistChecking.wishlistCheck(3, "manuallyCreatedWishlist:", myWishlist, _driver, wait);
         }
 
         public void addProductsToCart(string myWishlist, WebDriverWait wait)
@@ -269,11 +179,11 @@ namespace Automationpractice
 
             if (counter == 3)
             {
-                Console.WriteLine("All 3 products are in the cart");
+                Console.WriteLine("all 3 products are in the cart");
             }
             else
             {
-                Console.WriteLine("Less than 3 products in the cart");
+                Console.WriteLine("less than 3 products in the cart");
             }
 
             // Check that products in the detailed page and in the basket are the same, if it is true - count the summ
@@ -287,10 +197,10 @@ namespace Automationpractice
                 }
                 else
                 {
-                    Console.WriteLine("The price of products are not equal, impossible to calculate the amount");
+                    Console.WriteLine("the price of products are not equal, impossible to calculate the amount");
                 }
             }
-            Console.WriteLine("Summ of the products of cart: " + summ + " in the cart");
+            Console.WriteLine("summ of the products of cart: " + summ + " in the cart");
         }
     }
 }
