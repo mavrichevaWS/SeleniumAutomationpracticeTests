@@ -93,6 +93,8 @@
     <Compile Include="TestCases.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserConstantData.cs" />
+    <Compile Include="signupOrLoginTesting.cs" />
+    <Compile Include="wishlistChecking.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
