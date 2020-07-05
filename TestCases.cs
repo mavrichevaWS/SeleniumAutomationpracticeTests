@@ -99,7 +99,7 @@ namespace Automationpractice
             if (firstLastName.Text == (name + " " + lastname))
             {
                 Assert.IsTrue(firstLastName.Text == (name + " " + lastname));
-                Console.WriteLine("loginCheck: " + "Login test successful");
+                Console.WriteLine("loginTesting: " + "Login test successful");
             }
             else
             {
