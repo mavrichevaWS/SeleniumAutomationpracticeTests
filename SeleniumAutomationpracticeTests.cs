@@ -36,7 +36,7 @@ namespace Automationpractice
         public void Setup()
         {
             driver.Manage().Timeouts().ImplicitWait = new TimeSpan(5000);
-            Console.WriteLine("Set up has started");
+            Console.WriteLine("set up has started");
             AllureLifecycle.Instance.SetCurrentTestActionInException(() =>
             {
                 AllureLifecycle.Instance.AddAttachment("Step Screenshot", AllureLifecycle.AttachFormat.ImagePng,
