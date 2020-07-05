@@ -90,11 +90,11 @@
   <ItemGroup>
     <Compile Include="BrowserSettings.cs" />
     <Compile Include="SeleniumAutomationpracticeTests.cs" />
+    <Compile Include="SignupOrLoginTesting.cs" />
     <Compile Include="TestCases.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserConstantData.cs" />
-    <Compile Include="signupOrLoginTesting.cs" />
-    <Compile Include="wishlistChecking.cs" />
+    <Compile Include="WishlistChecking.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
