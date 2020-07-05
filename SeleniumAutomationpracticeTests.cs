@@ -20,10 +20,10 @@ namespace Automationpractice
     [AllureSuite("Automationpractice tests")]
     public class WebDriverTasks : AllureReport
     {
-        // Load driver for using tests locally
+        // Add functionality for using Chrome browser
         public static IWebDriver driver = new ChromeDriver(@"C:\Users\user\source\repos\Automationpractice\Drivers");
 
-        // Add functianality for using FireFox browser, in order to use it, please comments line above
+        // Add functionality for using Firefox browser, in order to use it, please comments line above
         // public static IWebDriver driver = new FirefoxDriver(@"C:\Users\user\source\repos\Automationpractice\Drivers");
 
         // Load driver for using tests with SeleniumGrid and Saucelabs
@@ -91,30 +91,33 @@ namespace Automationpractice
             /* driver = new RemoteWebDriver(new Uri("https://lenamavricheva:35f90510-0c41-419a-925a-811973864966@ondemand.eu-central-1.saucelabs.com:443/wd/hub"),
                  BrowserSettings.webDriverSetting(TestContext.CurrentContext.Test.Name), TimeSpan.FromSeconds(600)); */
 
-            SignupLogin signuplogin = new SignupLogin(UserConstantData.signupLink, driver);
-            
-            /* AllureLifecycle.Instance.RunStep("Signup test", () => {
-                ignuplogin.signupTesting(email, accountPassword, name, lastname, wait);
-            }); */
+            MainTestClass maintestclass = new MainTestClass(UserConstantData.signupLink, driver);
 
-            AllureLifecycle.Instance.RunStep("Login test", () => { 
-                signuplogin.loginTesting(UserConstantData.email, UserConstantData.accountPassword,
+            string email = DateTime.Now.ToString("h_mm_ss") + UserConstantData.email;
+
+            AllureLifecycle.Instance.RunStep("Signup test", () => {
+                maintestclass.signupTesting(email, UserConstantData.accountPassword,
+                    UserConstantData.name, UserConstantData.lastname, wait);
+            });
+
+            AllureLifecycle.Instance.RunStep("Login test", () => {
+                maintestclass.loginTesting(email, UserConstantData.accountPassword,
                     UserConstantData.name, UserConstantData.lastname, wait);
             });
 
             AllureLifecycle.Instance.RunStep("Auto-created wishlist test", () =>
             {
-                signuplogin.autoCreatedWishlist(UserConstantData.myWishlist, wait);
+                maintestclass.autoCreatedWishlist(UserConstantData.myWishlist, wait);
             });
 
             AllureLifecycle.Instance.RunStep("Manually created wishlist test", () =>
             {
-                signuplogin.manuallyCreatedWishlist(UserConstantData.myWishlist, wait);
+                maintestclass.manuallyCreatedWishlist(UserConstantData.myWishlist, wait);
             });
 
             AllureLifecycle.Instance.RunStep("Add products to cart test", () =>
             {
-                signuplogin.addProductsToCart(UserConstantData.myWishlist, wait);
+                maintestclass.addProductsToCart(UserConstantData.myWishlist, wait);
             });
         }
     }
